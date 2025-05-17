@@ -110,7 +110,7 @@
           ? images[i]
           : `https://picsum.photos/id/${(productId + 1) * 10}/110/110`;
 
-        $('#product-images').append(`<img src="${imgSrc}" alt="gambar produk">`);
+        $('#product-images').append(`<img class="border border-dark-subtle rounded" src="${imgSrc}" alt="gambar produk">`);
       }
     }).fail(function () {
       $('#product-title').text('Produk tidak dijumpai');
