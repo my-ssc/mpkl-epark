@@ -2,64 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Produk Maklumat</title>
+  <title>Maklumat Produk</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .image-gallery img {
-      height: 120px;
-      object-fit: cover;
-      margin-right: 10px;
-      border-radius: 12px;
+    body {
+      background-color: #f9fafb;
+      font-family: 'Segoe UI', sans-serif;
     }
 
-    .card-header {
-      background-color: #0d9488;
-      color: white;
-      font-weight: bold;
+    .flutter-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      padding: 20px;
+      margin-top: 20px;
     }
 
-    .label-title {
+    .flutter-label {
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .flutter-text {
+      font-size: 16px;
       font-weight: 600;
-      color: #6c757d;
+      margin-bottom: 16px;
     }
 
-    .image-gallery {
+    .flutter-image-scroll {
       overflow-x: auto;
-      white-space: nowrap;
+      display: flex;
+      gap: 12px;
+    }
+
+    .flutter-image-scroll img {
+      height: 160px;
+      width: auto;
+      border-radius: 12px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .title-bar {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f766e;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
-<div class="container my-4">
-  <div class="card">
-    <div class="card-header">
-      <span id="product-title">Memuatkan...</span>
+<div class="container">
+  <div class="flutter-card">
+    <div class="title-bar" id="product-title">Memuatkan...</div>
+
+    <div>
+      <div class="flutter-label">Kategori</div>
+      <div class="flutter-text" id="product-category">-</div>
     </div>
-    <div class="card-body">
-      <div class="mb-3">
-        <div class="label-title">Kategori</div>
-        <p id="product-category" class="mb-0 text-capitalize">-</p>
-      </div>
-      <div class="mb-3">
-        <div class="label-title">Penerangan</div>
-        <p id="product-description">-</p>
-      </div>
-      <div class="mb-3">
-        <div class="label-title">Galeri Gambar</div>
-        <div class="d-flex image-gallery" id="product-images">
-          <!-- Imej akan dimuatkan di sini -->
-        </div>
+
+    <div>
+      <div class="flutter-label">Penerangan</div>
+      <div class="flutter-text" id="product-description">-</div>
+    </div>
+
+    <div>
+      <div class="flutter-label">Galeri Gambar</div>
+      <div class="flutter-image-scroll" id="product-images">
+        <!-- Imej akan dipaparkan di sini -->
       </div>
     </div>
   </div>
 </div>
 
-<!-- jQuery + Bootstrap JS -->
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   function getParameterByName(name) {
     const url = window.location.href;
@@ -79,32 +101,21 @@
       $('#product-title').text(data.title);
       $('#product-category').text(data.category);
       $('#product-description').text(data.description);
-      $('#product-images').empty();
 
-      let imageList = data.images || [];
+      let images = data.images || [];
 
-      // Pastikan cukup 5 gambar
       for (let i = 0; i < 5; i++) {
-        let imgSrc;
-        if (i < imageList.length) {
-          imgSrc = imageList[i];
-        } else {
-          // Guna placeholder jika tiada cukup gambar
-          imgSrc = `https://picsum.photos/id/${(i + 1) * 10}/110/110`;
-        }
+        let imgSrc = i < images.length
+          ? images[i]
+          : `https://picsum.photos/id/${(i + 1) * 10}/200/300`;
 
-        $('#product-images').append(
-          `<img src="${imgSrc}" alt="gambar produk" class="img-thumbnail me-2">`
-        );
+        $('#product-images').append(`<img src="${imgSrc}" alt="gambar produk">`);
       }
     }).fail(function () {
       $('#product-title').text('Produk tidak dijumpai');
-      $('#product-category').text('-');
-      $('#product-description').text('Sila semak ID dalam URL.');
     });
   });
 </script>
-
 
 </body>
 </html>
