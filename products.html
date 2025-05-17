@@ -72,7 +72,7 @@
   }
 
   $(document).ready(function () {
-    const productId = getParameterByName('id') || 1; // default to 1 if not provided
+    const productId = getParameterByName('id') || 1;
     const apiUrl = `https://dummyjson.com/products/${productId}`;
 
     $.getJSON(apiUrl, function (data) {
@@ -81,11 +81,22 @@
       $('#product-description').text(data.description);
       $('#product-images').empty();
 
-      data.images.forEach(function (imgUrl) {
+      let imageList = data.images || [];
+
+      // Pastikan cukup 5 gambar
+      for (let i = 0; i < 5; i++) {
+        let imgSrc;
+        if (i < imageList.length) {
+          imgSrc = imageList[i];
+        } else {
+          // Guna placeholder jika tiada cukup gambar
+          imgSrc = `https://picsum.photos/id/${(i + 1) * 10}/200/300`;
+        }
+
         $('#product-images').append(
-          `<img src="${imgUrl}" alt="gambar produk" class="img-thumbnail me-2">`
+          `<img src="${imgSrc}" alt="gambar produk" class="img-thumbnail me-2">`
         );
-      });
+      }
     }).fail(function () {
       $('#product-title').text('Produk tidak dijumpai');
       $('#product-category').text('-');
@@ -93,6 +104,7 @@
     });
   });
 </script>
+
 
 </body>
 </html>
