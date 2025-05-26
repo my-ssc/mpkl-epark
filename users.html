@@ -1,17 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Maklumat Penggguna</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-  const userId = 1234; // Gantikan dengan ID sebenar dari backend
-  window.userId = userId;
-
-  if (window.flutter_inappwebview) {
-    window.flutter_inappwebview.callHandler('penggunaDaftar', userId);
-  }
-</script>
+  <title>Daftar Pengguna</title>
 </head>
-<body></body>
+<body>
+  <h1>Daftar Pengguna Baru</h1>
+
+  <form id="form-daftar">
+    <input type="text" id="nama" placeholder="Nama Penuh" required />
+    <input type="email" id="email" placeholder="Emel" required />
+    <input type="hidden" id="user_id" value="12345" /> <!-- Gantikan ini dari backend selepas daftar -->
+    
+    <button type="submit" id="btnSelesai">Selesai</button>
+  </form>
+
+  <script>
+    document.getElementById('form-daftar').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Contoh: ID pengguna diberi selepas daftar berjaya
+      const userId = document.getElementById('user_id').value;
+
+      if (window.flutter_inappwebview && userId) {
+        window.flutter_inappwebview.callHandler('penggunaDaftar', userId);
+      }
+
+      // Optional: redirect ke halaman lain atau tunjuk mesej
+      alert("Pendaftaran berjaya!");
+    });
+  </script>
+</body>
 </html>
